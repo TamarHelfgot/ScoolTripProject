@@ -1,0 +1,12 @@
+# C# / .NET
+bin/
+obj/
+.vs/
+*.user
+
+# React
+node_modules/
+build/
+
+# Secrets
+appsettings.Development.json

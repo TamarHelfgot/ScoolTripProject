@@ -73,10 +73,7 @@ const allPoints = [
         <div className="min-vh-100" dir="rtl">
             <BackgroundSlider />
 
-            <div style={{ position: 'relative', zIndex: 2 }}>
-                <Header user={user} onLogout={onLogout} />
-            </div>
-
+            <Header user={user} onLogout={onLogout} />
             <div className="container py-4" style={{ position: 'relative', zIndex: 2, maxWidth: 900 }}>
 
                 {loading && (

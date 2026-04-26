@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { addUser } from '../../axios/userAxios';
-import { getAllClasses } from '../../axios/classAxios';
+import { getAllClasses, addClass } from '../../axios/classAxios';
 import Header from '../shared/Header';
 import BackgroundSlider from '../shared/BackgroundSlider';
 
@@ -14,19 +14,25 @@ function AdminScreen({ user, onLogout }) {
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // הוספת כיתה
+    const [newClassName, setNewClassName] = useState('');
+    const [classError, setClassError] = useState('');
+    const [classSuccess, setClassSuccess] = useState('');
+    const [classLoading, setClassLoading] = useState(false);
+
+    const fetchClasses = async () => {
+        try {
+            const res = await getAllClasses();
+            setClasses(res.data);
+            if (res.data.length > 0) setClassId(res.data[0].id);
+        } catch (err) {
+            setError('שגיאה בטעינת הכיתות');
+        }
+    };
+
     useEffect(() => {
-        const fetchClasses = async () => {
-            try {
-                const res = await getAllClasses();
-                setClasses(res.data);
-                if (res.data.length > 0) setClassId(res.data[0].id);
-            } catch (err) {
-                setError('שגיאה בטעינת הכיתות');
-            }
-        };
         fetchClasses();
     }, []);
-
 
     const isValidId = (id) => {
         if (id.length !== 9) return false;
@@ -62,8 +68,25 @@ function AdminScreen({ user, onLogout }) {
         }
     };
 
+    const handleAddClass = async () => {
+        setClassError('');
+        setClassSuccess('');
+        if (!newClassName) { setClassError('יש להזין שם כיתה'); return; }
+
+        setClassLoading(true);
+        try {
+            await addClass(newClassName);
+            setClassSuccess('הכיתה נוספה בהצלחה!');
+            setNewClassName('');
+            await fetchClasses();
+        } catch (err) {
+            setClassError('שגיאה בהוספת הכיתה');
+        } finally {
+            setClassLoading(false);
+        }
+    };
+
     return (
-   
         <div className="min-vh-100" dir="rtl">
             <BackgroundSlider />
 
@@ -72,19 +95,19 @@ function AdminScreen({ user, onLogout }) {
             </div>
 
             <div className="container py-5" style={{ position: 'relative', zIndex: 2 }}>
-                <div className="row justify-content-center">
-                    <div className="col-12 col-sm-8 col-md-6 col-lg-4">
+                <div className="row justify-content-center g-4">
 
+                    {/* הוספת מורה */}
+                    <div className="col-12 col-sm-8 col-md-6 col-lg-4">
                         <div className="text-center mb-4">
                             <h1 className="fw-bold text-white">הוספת מורה</h1>
                             <p className="text-white-50">ניהול מערכת - בנות משה</p>
                         </div>
 
-                        <div className="card bg-dark bg-opacity-50 border-0 shadow-lg rounded-4" 
-                             style={{ backdropFilter: 'blur(24px)' }}>
+                        <div className="card bg-dark bg-opacity-50 border-0 shadow-lg rounded-4"
+                            style={{ backdropFilter: 'blur(24px)' }}>
                             <div className="card-body p-4">
-
-                                 <label className="text-white-50 small mb-1">ת"ז</label>
+                                <label className="text-white-50 small mb-1">ת"ז</label>
                                 <input
                                     className="form-control mb-3 text-end bg-dark text-white border-secondary"
                                     placeholder='ת"ז'
@@ -107,7 +130,6 @@ function AdminScreen({ user, onLogout }) {
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                                 <label className="text-white-50 small mb-1">כיתה</label>
-
                                 <select
                                     className="form-select mb-3 text-end bg-dark text-white border-secondary"
                                     value={classId}
@@ -118,19 +140,11 @@ function AdminScreen({ user, onLogout }) {
                                     ))}
                                 </select>
 
-                                {error && (
-                                    <div className="alert alert-danger py-2 text-center">
-                                        {error}
-                                    </div>
-                                )}
-                                {success && (
-                                    <div className="alert alert-success py-2 text-center">
-                                        {success}
-                                    </div>
-                                )}
+                                {error && <div className="alert alert-danger py-2 text-center">{error}</div>}
+                                {success && <div className="alert alert-success py-2 text-center">{success}</div>}
 
                                 <button
-                                    className="btn btn btn-outline-light w-100 fw-bold"
+                                    className="btn btn-outline-light w-100 fw-bold"
                                     onClick={handleAdd}
                                     disabled={loading}
                                 >
@@ -141,10 +155,47 @@ function AdminScreen({ user, onLogout }) {
                                         </>
                                     ) : 'הוספה'}
                                 </button>
-
                             </div>
                         </div>
                     </div>
+
+                    {/* הוספת כיתה */}
+                    <div className="col-12 col-sm-8 col-md-6 col-lg-4">
+                        <div className="text-center mb-4">
+                            <h1 className="fw-bold text-white">הוספת כיתה</h1>
+                            <p className="text-white-50">הוספת כיתה חדשה למערכת</p>
+                        </div>
+
+                        <div className="card bg-dark bg-opacity-50 border-0 shadow-lg rounded-4"
+                            style={{ backdropFilter: 'blur(24px)' }}>
+                            <div className="card-body p-4">
+                                <label className="text-white-50 small mb-1">שם הכיתה</label>
+                                <input
+                                    className="form-control mb-3 text-end bg-dark text-white border-secondary"
+                                    placeholder="לדוגמה: ו1"
+                                    value={newClassName}
+                                    onChange={(e) => setNewClassName(e.target.value)}
+                                />
+
+                                {classError && <div className="alert alert-danger py-2 text-center">{classError}</div>}
+                                {classSuccess && <div className="alert alert-success py-2 text-center">{classSuccess}</div>}
+
+                                <button
+                                    className="btn btn-outline-light w-100 fw-bold"
+                                    onClick={handleAddClass}
+                                    disabled={classLoading}
+                                >
+                                    {classLoading ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2" />
+                                            מוסיף...
+                                        </>
+                                    ) : 'הוספת כיתה'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

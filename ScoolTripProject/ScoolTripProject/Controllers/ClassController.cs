@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ScoolTripProject.Models;
 using ScoolTripProject.Services;
 
 
@@ -23,7 +25,22 @@ namespace ScoolTripProject.Controllers
             var classes = await _classService.GetAllClasses();
             return Ok(classes);
         }
-    
 
-}
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddClass([FromBody] Class newClass)
+        {
+            try
+            {
+                await _classService.AddClass(newClass);
+                return Ok("הכיתה נוספה בהצלחה");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+    }
 }

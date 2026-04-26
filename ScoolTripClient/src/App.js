@@ -11,16 +11,17 @@ function AppContent() {
     });
     const navigate = useNavigate();
 
-    const handleLogin = (loggedUser) => {
-        setUser(loggedUser);
-        sessionStorage.setItem('user', JSON.stringify(loggedUser));
-        switch (loggedUser.userRole) {
-            case 1: navigate('/admin'); break;
-            case 2: navigate('/teacher'); break;
-            case 3: navigate('/student'); break;
-            default: navigate('/');
-        }
-    };
+const handleLogin = (loggedUser, token) => {
+    setUser(loggedUser);
+    sessionStorage.setItem('user', JSON.stringify(loggedUser));
+    sessionStorage.setItem('token', token);
+    switch (loggedUser.userRole) {
+        case 1: navigate('/admin'); break;
+        case 2: navigate('/teacher'); break;
+        case 3: navigate('/student'); break;
+        default: navigate('/');
+    }
+};
 
     const handleLogout = () => {
         setUser(null);

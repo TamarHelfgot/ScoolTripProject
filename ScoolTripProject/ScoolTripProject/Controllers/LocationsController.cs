@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ScoolTripProject.Models;
 using ScoolTripProject.Services;
 
@@ -17,6 +18,7 @@ namespace ScoolTripProject.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetLocations([FromQuery] string teacherId)
         {
             try
@@ -46,6 +48,7 @@ namespace ScoolTripProject.Controllers
         }
 
         [HttpGet("student")]
+        [Authorize]
         public async Task<IActionResult> GetStudentLocation([FromQuery] string studentId)
         {
             try
@@ -62,6 +65,7 @@ namespace ScoolTripProject.Controllers
         }
 
         [HttpGet("mystatus")]
+        [Authorize]
         public async Task<IActionResult> GetStudentStatus([FromQuery] string studentId)
         {
             try

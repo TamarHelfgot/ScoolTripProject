@@ -18,5 +18,10 @@ namespace ScoolTripProject.Services
             return classes.Where(c => c.ClassName != "מנהל מערכת").ToList();
         }
 
+        public async Task AddClass(Class newClass)
+        {
+            await _classDAL.AddClass(newClass);
+        }
+
     }
 }

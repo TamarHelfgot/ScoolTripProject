@@ -62,7 +62,6 @@ return (
 
                         <div className="text-center mb-4">
                             <h1 className="fw-bold text-white">הוספת תלמידה</h1>
-                            <p className="text-white-50 small">כיתה {user.classId} — בנות משה</p>
                         </div>
 
                         <div className="card bg-dark bg-opacity-50 border-0 shadow-lg rounded-4"

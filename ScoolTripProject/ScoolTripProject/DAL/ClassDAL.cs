@@ -18,6 +18,11 @@ namespace ScoolTripProject.DAL
             return await _context.Classes.ToListAsync();
         }
 
+        public async Task AddClass(Class newClass)
+        {
+            _context.Classes.Add(newClass);
+            await _context.SaveChangesAsync();
+        }
 
     }
 }

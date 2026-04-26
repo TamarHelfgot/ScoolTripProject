@@ -1,15 +1,32 @@
 import axios from 'axios';
 
-const url = 'https://localhost:7279/api/Users/';
+const instance = axios.create({
+    baseURL: 'https://localhost:7279/api',
+    withCredentials: true
+});
+//TOKEN 
+instance.interceptors.request.use((config) => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export const loginUser = (id) =>
-    axios.post(`${url}login?id=${id}`);
+    instance.post(`/Users/login?id=${id}`);
 
 export const getAllUsers = (requesterId) =>
-    axios.get(`${url}?requesterId=${requesterId}`);
+    instance.get(`/Users?requesterId=${requesterId}`);
 
 export const addUser = (newUser, requesterId) =>
-    axios.post(`${url}?requesterId=${requesterId}`, newUser);
+    instance.post(`/Users?requesterId=${requesterId}`, newUser);
 
 export const getMyStudents = (teacherId) =>
-    axios.get(`${url}mystudents?teacherId=${teacherId}`);
+    instance.get(`/Users/mystudents?teacherId=${teacherId}`);
+
+export const getSession = () =>
+    instance.get('/Users/session');
+
+export const logoutUser = () =>
+    instance.post('/Users/logout');

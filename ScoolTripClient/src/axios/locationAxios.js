@@ -1,12 +1,23 @@
 import axios from 'axios';
 
-const url = 'https://localhost:7279/api/Locations/';
+const instance = axios.create({
+    baseURL: 'https://localhost:7279/api',
+    withCredentials: true
+});
+
+instance.interceptors.request.use((config) => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export const getLocations = (teacherId) =>
-    axios.get(`${url}?teacherId=${teacherId}`);
+    instance.get(`/Locations?teacherId=${teacherId}`);
 
 export const getStudentLocation = (studentId) =>
-    axios.get(`${url}student?studentId=${studentId}`);
+    instance.get(`/Locations/student?studentId=${studentId}`);
 
 export const getStudentStatus = (studentId) =>
-    axios.get(`${url}mystatus?studentId=${studentId}`);
+    instance.get(`/Locations/mystatus?studentId=${studentId}`);

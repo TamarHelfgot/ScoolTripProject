@@ -27,7 +27,7 @@ function Login({ onLogin }) {
         setLoading(true);
         try {
             const response = await loginUser(id);
-            onLogin(response.data);
+            onLogin(response.data.user, response.data.token);
         } catch (err) {
             setError('ת"ז לא נמצאה במערכת');
         } finally {

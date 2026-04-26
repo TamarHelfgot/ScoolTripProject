@@ -33,11 +33,10 @@ CREATE TABLE Locations (
 );
 
 --Insert Class
-INSERT INTO Class (ClassName) VALUES (N'ордм отшлъ');
+INSERT INTO Class (ClassName) VALUES (N'ЧћЧ Ч”Чњ ЧћЧўЧЁЧ›ЧЄ');
 
 -- Insert Admin
 INSERT INTO Users (Id, FirstName, LastName, ClassId, UserRole)
-VALUES ('100000009', N'ордм', N'', 1, 1);
-
+VALUES ('100000009', N'ЧћЧ Ч”Чњ', N'', 1, 1);
 
 

@@ -120,7 +120,7 @@ namespace ScoolTripProject.Services
                 double baseLat = prevLoc != null ? (double)prevLoc.Latitude : (double)teacherLoc.Latitude;
                 double baseLon = prevLoc != null ? (double)prevLoc.Longitude : (double)teacherLoc.Longitude;
 
-                var studentInput = GenerateRandomDMSNearby(student.Id, baseLat, baseLon, maxKm: 2);
+                var studentInput = GenerateRandomDMSNearby(student.Id, baseLat, baseLon, maxKm: 0.2);
                 await SaveLocation(studentInput);
             }
         }

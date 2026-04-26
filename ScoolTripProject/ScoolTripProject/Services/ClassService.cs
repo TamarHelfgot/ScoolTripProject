@@ -15,7 +15,9 @@ namespace ScoolTripProject.Services
         public async Task<List<Class>> GetAllClasses()
         {
             var classes = await _classDAL.GetAllClasses();
-            return classes.Where(c => c.ClassName != "מנהל מערכת").ToList();
+            return classes.Where(c => c.ClassName != "מנהל מערכת")
+                .OrderBy(c => c.ClassName)
+                .ToList();
         }
 
         public async Task AddClass(Class newClass)

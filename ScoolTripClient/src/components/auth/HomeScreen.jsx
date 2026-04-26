@@ -17,23 +17,29 @@ function HomeScreen() {
 
             <div className="d-flex align-items-center justify-content-center px-3"
                 style={{ position: 'relative', zIndex: 2, minHeight: 'calc(100vh - 68px)' }}>
-                <div style={{ width: '100%', maxWidth: 370 }}>
+                <div className="text-center">
 
-                    <div className="text-center mb-4">
-                        <h1 className="fw-bold text-white">כניסה למערכת</h1>
-                        <p className="text-white-50 small">טיול שנתי - בנות משה</p>
-                    </div>
+                  
 
-                    <div className="card bg-dark bg-opacity-50 border-0 shadow-lg rounded-4"
-                        style={{ backdropFilter: 'blur(24px)' }}>
-                        <div className="card-body p-4">
-                            <button
-                                className="btn btn-outline-light w-100 fw-bold"
-                                onClick={() => navigate('/login')}>
-                                כניסה למערכת
-                            </button>
-                        </div>
-                    </div>
+                    <h1 className="display-3 fw-bold text-white mb-2">
+                        בנות משה
+                    </h1>
+
+                    <h4 className="fw-light text-white-50 mb-4">
+                        טיול שנתי
+                    </h4>
+
+                 
+
+                    <button
+                        className="btn btn-light btn-lg rounded-pill px-5 fw-bold shadow"
+                        onClick={() => navigate('/login')}>
+                        כניסה למערכת 
+                    </button>
+
+                    <p className="text-white-50 small mt-5">
+                        בנות משה • טיול שנתי • מערכת איכון
+                    </p>
 
                 </div>
             </div>

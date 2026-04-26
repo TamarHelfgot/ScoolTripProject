@@ -11,10 +11,10 @@ function TeacherMenu({ user, onLogout }) {
     const navigate = useNavigate();
 
     const menuItems = [
-        { key: 'map',        icon: '🗺️', label: 'מפת איכון' },
-        { key: 'addStudent', icon: '➕', label: 'הוספת תלמידה' },
-        { key: 'allUsers',   icon: '👥', label: 'כל המשתמשים' },
-        { key: 'myStudents', icon: '🎒', label: 'תלמידות הכיתה שלי' },
+        { key: 'map',         label: 'מפת איכון' },
+        { key: 'addStudent',  label: 'הוספת תלמידה' },
+        { key: 'allUsers',    label: 'כל המשתמשים' },
+        { key: 'myStudents', label: 'תלמידות הכיתה שלי' },
     ];
 
     const Menu = (
@@ -30,7 +30,7 @@ function TeacherMenu({ user, onLogout }) {
                 <div style={{ width: '100%', maxWidth: 420 }}>
 
                     <div className="text-center mb-4">
-                        <h1 className="fw-bold text-white">שלום, {user.firstName} 👋</h1>
+                        <h1 className="fw-bold text-white">שלום {user.firstName} </h1>
                         <p className="text-white-50 small">מה תרצי לעשות היום?</p>
                     </div>
 

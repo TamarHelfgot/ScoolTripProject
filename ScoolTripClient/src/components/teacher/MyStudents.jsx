@@ -62,7 +62,7 @@ function MyStudents({ user, onBack }) {
                         style={{ backdropFilter: 'blur(24px)' }}>
                         <div className="card-body p-3">
                             <h5 className="text-end fw-bold text-white mb-3">
-                                🎒 תלמידות ({students.length})
+                                 תלמידות ({students.length})
                             </h5>
                             <div className="table-responsive">
                                 <table className="table table-dark table-borderless table-hover text-end mb-0">

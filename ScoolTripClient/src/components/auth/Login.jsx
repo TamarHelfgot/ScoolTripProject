@@ -56,7 +56,7 @@ function Login({ onLogin }) {
 
                     <div className="text-center mb-4">
                         <h1 className="fw-bold text-white">כניסה למערכת</h1>
-                        <p className="text-white-50 small">טיול שנתי — בנות משה</p>
+                        <p className="text-white-50 small">טיול שנתי - בנות משה</p>
                     </div>
 
                     <div className="card bg-dark bg-opacity-50 border-0 shadow-lg rounded-4"

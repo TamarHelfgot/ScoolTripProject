@@ -97,7 +97,7 @@ function AdminScreen({ user, onLogout }) {
             <div className="container py-5" style={{ position: 'relative', zIndex: 2 }}>
                 <div className="row justify-content-center g-4">
 
-                    {/* הוספת מורה */}
+                    
                     <div className="col-12 col-sm-8 col-md-6 col-lg-4">
                         <div className="text-center mb-4">
                             <h1 className="fw-bold text-white">הוספת מורה</h1>
@@ -159,7 +159,7 @@ function AdminScreen({ user, onLogout }) {
                         </div>
                     </div>
 
-                    {/* הוספת כיתה */}
+                  
                     <div className="col-12 col-sm-8 col-md-6 col-lg-4">
                         <div className="text-center mb-4">
                             <h1 className="fw-bold text-white">הוספת כיתה</h1>

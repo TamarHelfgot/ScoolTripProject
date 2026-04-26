@@ -171,7 +171,7 @@ namespace ScoolTripProject.Services
             return locations.FirstOrDefault(l => l.UserId == studentId);
         }
 
-        public async Task<LocationResult> GetStudentStatus(string studentId)
+        public async Task<object> GetStudentStatus(string studentId)
         {
             var student = await _userDAL.GetUserById(studentId);
             if (student == null || student.UserRole != UserRole.Student)
@@ -190,12 +190,22 @@ namespace ScoolTripProject.Services
                                     teacherLoc.Latitude, teacherLoc.Longitude)
                 : double.MaxValue;
 
-            return new LocationResult
+            return new
             {
-                User = student,
-                Location = studentLoc,
-                Distance = distance,
-                IsFar = distance > 3.0
+                Student = new LocationResult
+                {
+                    User = student,
+                    Location = studentLoc,
+                    Distance = distance,
+                    IsFar = distance > 3.0
+                },
+                Teacher = new LocationResult
+                {
+                    User = teacher,
+                    Location = teacherLoc,
+                    Distance = 0,
+                    IsFar = false
+                }
             };
         }
     }

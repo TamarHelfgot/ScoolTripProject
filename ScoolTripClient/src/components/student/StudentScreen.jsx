@@ -5,24 +5,26 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import { getStudentStatus } from '../../axios/locationAxios';
 import Header from '../shared/Header';
+import BackgroundSlider from '../shared/BackgroundSlider';
 import 'leaflet/dist/leaflet.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({ iconUrl, shadowUrl: iconShadow });
 
 const greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-    shadowUrl: iconShadow,
+    iconUrl: '/images/marker-icon-green.png',
     iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
 });
 
 const redIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    shadowUrl: iconShadow,
+    iconUrl: '/images/marker-icon-red.png',
     iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
 });
 
-const SLIDES = [1,2,3,4,5,6,7,8,9,10].map(i => `/images/img${i}.jpg`);
+const blueIcon = new L.Icon({
+    iconUrl: '/images/marker-icon-blue.png',
+    iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34]
+});
 
 function FitBounds({ points }) {
     const map = useMap();
@@ -41,12 +43,13 @@ function StudentScreen({ user, onLogout }) {
     const [status, setStatus] = useState(null);
     const [loading, setLoading] = useState(true);
     const intervalRef = useRef(null);
-    const [current, setCurrent] = useState(0);
+    const [teacherLoc, setTeacherLoc] = useState(null);
 
     const fetchData = async () => {
         try {
             const res = await getStudentStatus(user.id);
-            setStatus(res.data);
+                setStatus(res.data.student);
+                setTeacherLoc(res.data.teacher?.location);
         } catch (err) {
             console.error(err);
         } finally {
@@ -60,87 +63,57 @@ function StudentScreen({ user, onLogout }) {
         return () => clearInterval(intervalRef.current);
     }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => setCurrent(p => (p + 1) % SLIDES.length), 30000);
-        return () => clearInterval(interval);
-    }, []);
 
-    const allPoints = status?.location
-        ? [[status.location.latitude, status.location.longitude]]
-        : [];
+const allPoints = [
+    ...(status?.location ? [[status.location.latitude, status.location.longitude]] : []),
+    ...(teacherLoc ? [[teacherLoc.latitude, teacherLoc.longitude]] : [])
+];
 
-    return (
-        <div style={{ minHeight: '100vh', fontFamily: "'Heebo', sans-serif" }}>
-
-            {SLIDES.map((url, i) => (
-                <div key={i} style={{
-                    position: 'fixed', inset: 0,
-                    backgroundImage: `url(${url})`,
-                    backgroundSize: 'cover', backgroundPosition: 'center',
-                    opacity: i === current ? 1 : 0,
-                    transition: 'opacity 2.8s ease-in-out', zIndex: 0,
-                }} />
-            ))}
-
-            <div style={{
-                position: 'fixed', inset: 0, zIndex: 1,
-                background: 'linear-gradient(135deg, rgba(10,25,60,0.75) 0%, rgba(15,30,58,0.68) 100%)',
-                backdropFilter: 'blur(1.5px)',
-            }} />
+  return (
+        <div className="min-vh-100" dir="rtl">
+            <BackgroundSlider />
 
             <div style={{ position: 'relative', zIndex: 2 }}>
                 <Header user={user} onLogout={onLogout} />
             </div>
 
-            <div style={{ position: 'relative', zIndex: 2, padding: '2rem 1.5rem', maxWidth: 900, margin: '0 auto' }}>
+            <div className="container py-4" style={{ position: 'relative', zIndex: 2, maxWidth: 900 }}>
 
                 {loading && (
                     <div className="text-center mt-5">
-                        <div className="spinner-border" style={{ color: '#f0dfa0' }} />
+                        <div className="spinner-border text-warning" />
                     </div>
                 )}
 
                 {!loading && status && (
                     <>
+                       
                         <div className="text-center mb-3">
-                            <div style={{
-                                display: 'inline-block',
-                                padding: '10px 24px',
-                                borderRadius: 50,
-                                fontWeight: 700,
-                                fontSize: '1rem',
-                                background: status.isFar ? 'rgba(239,68,68,0.2)' : 'rgba(34,197,94,0.2)',
-                                border: `1px solid ${status.isFar ? 'rgba(239,68,68,0.5)' : 'rgba(34,197,94,0.5)'}`,
-                                color: status.isFar ? '#fca5a5' : '#86efac',
-                            }}>
+                            <span className={`badge rounded-pill fs-6 fw-bold px-4 py-2 ${status.isFar ? 'bg-danger' : 'bg-success'}`}>
                                 {status.isFar
-                                    ? `🔴  רחוקה מהמורה  ${status.distance.toFixed(1)} ק"מ`
-                                    : `🟢  קרובה למורה  ${status.distance.toFixed(1)} ק"מ`}
+                                    ? `🔴 רחוקה מהמורה ${status.distance.toFixed(1)} ק"מ`
+                                    : `🟢 קרובה למורה ${status.distance.toFixed(1)} ק"מ`}
+                            </span>
+                        </div>
+
+                    
+                        <div className="card bg-dark bg-opacity-50 border-0 rounded-3 mb-3"
+                            style={{ backdropFilter: 'blur(12px)' }}>
+                            <div className="card-body py-2 px-3 d-flex align-items-center gap-3 flex-wrap">
+                                <span className="text-white-50 small">מקרא:</span>
+                                <div className="d-flex align-items-center gap-2">
+                                    <div className="rounded-circle bg-success" style={{ width: 12, height: 12 }} />
+                                    <span className="text-white small">קרובה</span>
+                                </div>
+                                <div className="d-flex align-items-center gap-2">
+                                    <div className="rounded-circle bg-danger" style={{ width: 12, height: 12 }} />
+                                    <span className="text-white small">רחוקה</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="d-flex gap-4 align-items-center flex-wrap mb-3" style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            backdropFilter: 'blur(12px)',
-                            border: '1px solid rgba(255,255,255,0.13)',
-                            borderRadius: 12, padding: '12px 20px',
-                        }}>
-                            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>מקרא:</span>
-                            <div className="d-flex align-items-center gap-2">
-                                <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#22C55E' }} />
-                                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>קרובה</span>
-                            </div>
-                            <div className="d-flex align-items-center gap-2">
-                                <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#EF4444' }} />
-                                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}> רחוקה</span>
-                            </div>
-                        </div>
-
-                        <div style={{
-                            borderRadius: 16, overflow: 'hidden',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                        }}>
+                    
+                        <div className="rounded-4 overflow-hidden shadow-lg">
                             <MapContainer
                                 center={status.location
                                     ? [status.location.latitude, status.location.longitude]
@@ -159,6 +132,14 @@ function StudentScreen({ user, onLogout }) {
                                             <strong>המיקום שלי</strong><br />
                                             מרחק מהמורה: {status.distance.toFixed(1)} ק"מ
                                         </Popup>
+                                    </Marker>
+                                )}
+                                {teacherLoc && (
+                                    <Marker
+                                        position={[teacherLoc.latitude, teacherLoc.longitude]}
+                                        icon={blueIcon}>
+                                        <Tooltip permanent>המורה</Tooltip>
+                                        <Popup><strong>המורה</strong></Popup>
                                     </Marker>
                                 )}
                             </MapContainer>

@@ -32,5 +32,12 @@ CREATE TABLE Locations (
         FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
 
+--Insert Class
+INSERT INTO Class (ClassName) VALUES (N'מנהל מערכת');
+
+-- Insert Admin
+INSERT INTO Users (Id, FirstName, LastName, ClassId, UserRole)
+VALUES ('100000009', N'מנהל', N'', 1, 1);
+
 
 

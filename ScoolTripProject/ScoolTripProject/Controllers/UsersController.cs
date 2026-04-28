@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScoolTripProject.Models;
 using ScoolTripProject.Services;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ScoolTripProject.Controllers
@@ -78,26 +74,8 @@ namespace ScoolTripProject.Controllers
         {
             try
             {
-                var user = await _userService.Login(id);
-
-                var secretKey = _configuration["Jwt:SecretKey"];
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-
-                var claims = new[]
-                {
-                    new Claim("userId", user.Id),
-                    new Claim("userRole", ((int)user.UserRole).ToString())
-                };
-
-                var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddHours(4),
-                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-                return Ok(new { user, token = tokenString });
+                var result = await _userService.Login(id);
+                return Ok(result);
             }
             catch (UnauthorizedAccessException ex)
             {

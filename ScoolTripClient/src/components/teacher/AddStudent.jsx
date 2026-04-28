@@ -36,7 +36,7 @@ function AddStudent({ user, onBack }) {
                 id, firstName, lastName,
                 classId: user.classId,
                 userRole: 3
-            }, user.id);
+            }, );
             setSuccess('התלמידה נוספה בהצלחה!');
             setId(''); setFirstName(''); setLastName('');
             setTimeout(() => onBack(), 1500);

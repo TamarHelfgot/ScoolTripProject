@@ -16,14 +16,14 @@ instance.interceptors.request.use((config) => {
 export const loginUser = (id) =>
     instance.post(`/Users/login?id=${id}`);
 
-export const getAllUsers = (requesterId) =>
-    instance.get(`/Users?requesterId=${requesterId}`);
+export const getAllUsers = () =>
+    instance.get('/Users');
 
-export const addUser = (newUser, requesterId) =>
-    instance.post(`/Users?requesterId=${requesterId}`, newUser);
+export const addUser = (newUser) =>
+    instance.post('/Users', newUser);
 
-export const getMyStudents = (teacherId) =>
-    instance.get(`/Users/mystudents?teacherId=${teacherId}`);
+export const getMyStudents = () =>
+    instance.get('/Users/mystudents');
 
 export const getSession = () =>
     instance.get('/Users/session');

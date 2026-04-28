@@ -13,11 +13,11 @@ instance.interceptors.request.use((config) => {
     return config;
 });
 
-export const getLocations = (teacherId) =>
-    instance.get(`/Locations?teacherId=${teacherId}`);
+export const getLocations = () =>
+    instance.get('/Locations');
 
-export const getStudentLocation = (studentId) =>
-    instance.get(`/Locations/student?studentId=${studentId}`);
+export const getStudentLocation = () =>
+    instance.get('/Locations/student');
 
-export const getStudentStatus = (studentId) =>
-    instance.get(`/Locations/mystatus?studentId=${studentId}`);
+export const getStudentStatus = () =>
+    instance.get('/Locations/mystatus');

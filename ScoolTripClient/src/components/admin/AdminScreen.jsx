@@ -14,7 +14,7 @@ function AdminScreen({ user, onLogout }) {
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // הוספת כיתה
+  
     const [newClassName, setNewClassName] = useState('');
     const [classError, setClassError] = useState('');
     const [classSuccess, setClassSuccess] = useState('');
@@ -58,7 +58,8 @@ function AdminScreen({ user, onLogout }) {
                 id, firstName, lastName,
                 classId: parseInt(classId),
                 userRole: 2
-            }, user.id);
+            });
+
             setSuccess('המורה נוספה בהצלחה!');
             setId(''); setFirstName(''); setLastName('');
         } catch (err) {

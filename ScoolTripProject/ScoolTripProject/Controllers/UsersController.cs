@@ -3,6 +3,7 @@ using ScoolTripProject.Models;
 using ScoolTripProject.Services;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace ScoolTripProject.Controllers
 {
     [ApiController]
@@ -20,10 +21,11 @@ namespace ScoolTripProject.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAllUsers([FromQuery] string requesterId)
+        public async Task<IActionResult> GetAllUsers()
         {
             try
             {
+                var requesterId = User.FindFirst("userId")?.Value;
                 var users = await _userService.GetAllUsers(requesterId);
                 return Ok(users);
             }
@@ -35,12 +37,11 @@ namespace ScoolTripProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddUser(
-            [FromBody] User newUser,
-            [FromQuery] string requesterId)
+        public async Task<IActionResult> AddUser([FromBody] User newUser)
         {
             try
             {
+                var requesterId = User.FindFirst("userId")?.Value;
                 await _userService.AddUser(newUser, requesterId);
                 return Ok("הפעולה בוצעה בהצלחה");
             }
@@ -56,10 +57,11 @@ namespace ScoolTripProject.Controllers
 
         [HttpGet("mystudents")]
         [Authorize]
-        public async Task<IActionResult> GetMyStudents([FromQuery] string teacherId)
+        public async Task<IActionResult> GetMyStudents()
         {
             try
             {
+                var teacherId = User.FindFirst("userId")?.Value;
                 var students = await _userService.GetMyStudents(teacherId);
                 return Ok(students);
             }

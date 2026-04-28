@@ -16,7 +16,7 @@ function AllUsers({ user, onBack }) {
         const fetchData = async () => {
             try {
                 const [usersRes, classesRes] = await Promise.all([
-                    getAllUsers(user.id),
+                    getAllUsers(),
                     getAllClasses()
                 ]);
                 setUsers(usersRes.data);

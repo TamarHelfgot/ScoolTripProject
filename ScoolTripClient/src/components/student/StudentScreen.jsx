@@ -47,7 +47,7 @@ function StudentScreen({ user, onLogout }) {
 
     const fetchData = async () => {
         try {
-            const res = await getStudentStatus(user.id);
+            const res = await getStudentStatus();
                 setStatus(res.data.student);
                 setTeacherLoc(res.data.teacher?.location);
         } catch (err) {

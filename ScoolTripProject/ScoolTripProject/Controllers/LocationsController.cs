@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using ScoolTripProject.Models;
 using ScoolTripProject.Services;
+using System.Security.Claims;
 
 namespace ScoolTripProject.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class LocationsController : ControllerBase
     {
         private readonly LocationService _locationService;
@@ -16,13 +16,14 @@ namespace ScoolTripProject.Controllers
         {
             _locationService = locationService;
         }
-        
+
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetLocations([FromQuery] string teacherId)
+        public async Task<IActionResult> GetLocations()
         {
             try
             {
+                var teacherId = User.FindFirst("userId")?.Value;
                 var locations = await _locationService.GetLocationsForTeacher(teacherId);
                 return Ok(locations);
             }
@@ -31,10 +32,9 @@ namespace ScoolTripProject.Controllers
                 return Unauthorized(ex.Message);
             }
         }
-       
+
         [HttpPost]
-        public async Task<IActionResult> SaveLocation(
-    [FromBody] DeviceLocationInput input)
+        public async Task<IActionResult> SaveLocation([FromBody] DeviceLocationInput input)
         {
             try
             {
@@ -43,16 +43,17 @@ namespace ScoolTripProject.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("שגיאה בשמירת המיקום");
             }
         }
 
         [HttpGet("student")]
         [Authorize]
-        public async Task<IActionResult> GetStudentLocation([FromQuery] string studentId)
+        public async Task<IActionResult> GetStudentLocation()
         {
             try
             {
+                var studentId = User.FindFirst("userId")?.Value;
                 var location = await _locationService.GetStudentLocation(studentId);
                 if (location == null)
                     return NotFound("לא נמצא מיקום לתלמידה זו");
@@ -60,16 +61,17 @@ namespace ScoolTripProject.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("שגיאה בטעינת המיקום");
             }
         }
 
         [HttpGet("mystatus")]
         [Authorize]
-        public async Task<IActionResult> GetStudentStatus([FromQuery] string studentId)
+        public async Task<IActionResult> GetStudentStatus()
         {
             try
             {
+                var studentId = User.FindFirst("userId")?.Value;
                 var result = await _locationService.GetStudentStatus(studentId);
                 return Ok(result);
             }
@@ -79,9 +81,8 @@ namespace ScoolTripProject.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("שגיאה בטעינת הסטטוס");
             }
         }
-
     }
 }

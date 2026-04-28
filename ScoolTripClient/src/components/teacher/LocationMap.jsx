@@ -41,7 +41,7 @@ function LocationMap({ user, onBack }) {
 
     const fetchLocations = async () => {
         try {
-            const response = await getLocations(user.id);
+            const response = await getLocations();
             const data = response.data;
             const tLoc = data.find(d => d.user.userRole === 2);
             if (tLoc) setTeacherLocation(tLoc.location);

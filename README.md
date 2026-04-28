@@ -29,7 +29,7 @@ The system includes 3 types of users:
 - JWT Authentication
 
 **Frontend:**
-- React 18
+- React 
 - Bootstrap 5
 - Leaflet / react-leaflet
 - Axios
@@ -120,14 +120,14 @@ All other users (teachers and students) must be added through the system by the 
 - <img width="2822" height="590" alt="image" src="https://github.com/user-attachments/assets/ddd0fb20-53d4-4f02-99df-f44be2ad53c6" />
 
 - **My Students** — List of students in my class
-- <img width="2809" height="1218" alt="image" src="https://github.com/user-attachments/assets/10a1206d-c2ee-4590-9492-4958fb8a7a2f" />
+<img width="2822" height="590" alt="image" src="https://github.com/user-attachments/assets/a31bc95c-6e1f-4222-a942-1ef81e5d03b7" />
 
 
 ### Student
 - View own location on the map
 - View teacher's location on the map
 - Real-time distance status from teacher
-<img width="2822" height="590" alt="image" src="https://github.com/user-attachments/assets/a31bc95c-6e1f-4222-a942-1ef81e5d03b7" />
+- <img width="2809" height="1218" alt="image" src="https://github.com/user-attachments/assets/10a1206d-c2ee-4590-9492-4958fb8a7a2f" />
 
 
 

@@ -145,25 +145,25 @@ All other users (teachers and students) must be added through the system by the 
 ---
 
 ```
-ScoolTripProject/          ← Backend C#
-├── Controllers/
-├── DAL/
-├── Models/
-├── Services/
-└── appsettings.json
+ScoolTripProject/           Backend C#
+Controllers/
+ DAL/
+ Models/
+ Services/
+ appsettings.json
 
-ScoolTripClient/           ← Frontend React
-├── src/
-│   ├── axios/
-│   ├── components/
-│   │   ├── admin/
-│   │   ├── auth/
-│   │   ├── shared/
-│   │   ├── student/
-│   │   └── teacher/
-│   └── routing/
-└── public/
-    └── images/
+ScoolTripClient/            Frontend React
+ src/
+   axios/
+   components/
+      admin/
+      auth/
+      shared/
+      student/
+      teacher/
+      routing/
+    public/
+    images/
 ```
 ---
 
